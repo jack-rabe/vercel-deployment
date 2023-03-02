@@ -5,6 +5,7 @@ type kitten = { name: string; age: number };
 
 const Target = () => {
   const [kittens, setKittens] = useState<kitten[]>([]);
+  let key = 0;
 
   return (
     <>
@@ -15,7 +16,7 @@ const Target = () => {
         fetch
       </button>
       {kittens.map((kitten) => (
-        <Kitten name={kitten.name} age={kitten.age} />
+        <Kitten key={key} name={kitten.name} age={kitten.age} />
       ))}
     </>
   );
