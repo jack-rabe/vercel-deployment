@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import mongoose from "mongoose";
 
 type Data = {
-  name: string;
+  status: "success" | "error";
 };
 
 export default async function handler(
@@ -14,10 +14,9 @@ export default async function handler(
     name: String,
     age: Number,
   });
-
   const Kitten =
     mongoose.models.Kitten || mongoose.model("Kitten", kittySchema);
-  const silence = new Kitten({ name: "Dog", age: 33 });
+  const silence = new Kitten({ name: req.query.name, age: req.query.age });
 
   const user = process.env.MONGO_USER;
   const pass = process.env.MONGO_PASS;
@@ -26,6 +25,5 @@ export default async function handler(
   await silence.save();
   mongoose.connection.close();
 
-  console.log(req);
-  res.status(200).json({ name: "John Doe" });
+  res.status(200).json({ status: "success" });
 }

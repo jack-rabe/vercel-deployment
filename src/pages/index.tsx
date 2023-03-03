@@ -9,10 +9,7 @@ const Target = () => {
 
   return (
     <>
-      <button
-        className="border border-gray-200 hover:ring-red-900 bg-slate-500"
-        onClick={hitBackend.bind(null, setKittens)}
-      >
+      <button className="btn" onClick={hitBackend.bind(null, setKittens)}>
         fetch
       </button>
       {kittens.map((kitten) => (
@@ -29,11 +26,9 @@ export default function Kittens() {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={"text-red-900"}>
-        <div className="flex flex-col justify-center items-end h-72">
-          <div>Hello World!!!</div>
+      <main>
+        <div className="flex flex-col justify-center items-center h-72 mt-16">
           <Target></Target>
-          <div>div 2</div>
         </div>
       </main>
     </>
@@ -42,7 +37,7 @@ export default function Kittens() {
 
 const Kitten = ({ name, age }: { name: string; age: number }) => {
   return (
-    <div className="w-36 h-36 bg-zinc-100 flex items-center justify-center m-2">
+    <div className="w-36 h-36 bg-primary flex items-center justify-center m-2">
       {name} is {age}
     </div>
   );

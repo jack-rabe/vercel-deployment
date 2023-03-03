@@ -1,19 +1,26 @@
 import Head from "next/head";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 const Target = () => {
   const [text, setText] = useState("empty");
 
   return (
-    <>
-      <button
-        className="border border-gray-200 hover:ring-red-900"
-        onClick={hitBackend.bind(null, setText)}
-      >
-        fetch
+    <form action="/api/hello">
+      <label>
+        Name:
+        <input type="text" name="name" className="m-3 p-2"></input>
+      </label>
+      <label>
+        Age:
+        <input type="number" name="age" className="m-3 p-2"></input>
+      </label>
+      <button type="submit" className="btn m-4">
+        post
       </button>
-      <div>{text}</div>
-    </>
+      <div className="bg-primary border border-white text-black m-4 p-4">
+        {text}
+      </div>
+    </form>
   );
 };
 
@@ -24,19 +31,22 @@ export default function Hello() {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={"text-red-900"}>
+      <main>
         <div className="flex flex-col justify-center items-end h-72">
-          <div>Hello World!!!</div>
           <Target></Target>
-          <div>div 2</div>
         </div>
       </main>
     </>
   );
 }
 
-function hitBackend(setText: any) {
+function hitBackend(setText: any, e: FormEvent) {
+  console.log("hi");
   fetch("/api/hello").then((res) =>
-    res.json().then((data) => setText(JSON.stringify(data)))
+    res
+      .json()
+      .then((data) => setText(JSON.stringify(data)))
+      .catch((e) => console.error(e))
   );
+  e.preventDefault();
 }
