@@ -15,12 +15,16 @@ export default async function handler(
     age: Number,
   });
 
-  const Kitten = mongoose.model("Kitten", kittySchema);
-  const silence = new Kitten({ name: "Silence", age: 10 });
+  const Kitten =
+    mongoose.models.Kitten || mongoose.model("Kitten", kittySchema);
+  const silence = new Kitten({ name: "Dog", age: 33 });
 
-  const uri = "mongodb://127.0.0.1:27017/jack";
+  const user = process.env.MONGO_USER;
+  const pass = process.env.MONGO_PASS;
+  const uri = `mongodb+srv://${user}:${pass}@cluster0.bcacmvv.mongodb.net/test?retryWrites=true&w=majority`;
   await mongoose.connect(uri).catch((err) => console.error(err));
   await silence.save();
+  mongoose.connection.close();
 
   console.log(req);
   res.status(200).json({ name: "John Doe" });

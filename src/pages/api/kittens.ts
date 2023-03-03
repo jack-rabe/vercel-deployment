@@ -14,9 +14,12 @@ export default async function handler(
   const Kitten =
     mongoose.models.Kitten || mongoose.model("Kitten", kittySchema);
 
-  const uri = "mongodb://127.0.0.1:27017/jack";
+  const user = process.env.MONGO_USER;
+  const pass = process.env.MONGO_PASS;
+  const uri = `mongodb+srv://${user}:${pass}@cluster0.bcacmvv.mongodb.net/test?retryWrites=true&w=majority`;
   await mongoose.connect(uri).catch((err) => console.error(err));
   const kittens = await Kitten.find({});
+  console.log(kittens.length);
 
   const resData = kittens.map((kitty) => {
     return {
@@ -25,6 +28,7 @@ export default async function handler(
     };
   });
   console.log(resData);
+  mongoose.connection.close();
 
   res.status(200).json(resData);
 }
